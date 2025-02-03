@@ -1,9 +1,0 @@
-<resources>
-    <string name="app_name">Digital-surgery</string>
-    <string name="favorites_added">Added to favorites</string>
-    <string name="favorites_removed">Removed from favorites</string>
-    <string name="surgical_title">Surgical Procedures</string>
-    <string name="phases">Phases</string>
-    <string name="phase">Phase</string>
-    <string name="set_favourite_procedure">Set Favorite</string>
-</resources>
