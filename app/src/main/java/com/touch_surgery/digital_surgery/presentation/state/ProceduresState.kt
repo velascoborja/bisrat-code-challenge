@@ -11,7 +11,9 @@ data class ProceduresState(
 
 data class ProcedureDetailState(
     val procedureDetail: ProcedureDetail? = null,
+    val procedure : Procedure? = null,
     val loading: Boolean = false,
     val success : Boolean = false,
-    val error: String? = null
+    val error: String? = null,
+    val isFavourite : Boolean = false
 )

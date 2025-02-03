@@ -1,5 +1,6 @@
 package com.touch_surgery.digital_surgery.di
 
+import com.touch_surgery.digital_surgery.domain.repository.GetSingleProcedureUseCase
 import com.touch_surgery.digital_surgery.domain.usecase.favourites.UpdateFavouriteUseCase
 import com.touch_surgery.digital_surgery.domain.usecase.procedureDetail.FetchProcedureDetailsFromApiUseCase
 import com.touch_surgery.digital_surgery.domain.usecase.procedureDetail.GetProcedureDetailUseCase
@@ -17,4 +18,5 @@ val procedureDomainModule = module {
 val procedureDetailDomainModule = module {
     singleOf(::FetchProcedureDetailsFromApiUseCase)
     singleOf(::GetProcedureDetailUseCase)
+    singleOf(::GetSingleProcedureUseCase)
 }

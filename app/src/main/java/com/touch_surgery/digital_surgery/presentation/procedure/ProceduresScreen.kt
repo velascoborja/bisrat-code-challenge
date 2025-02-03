@@ -3,16 +3,16 @@ package com.touch_surgery.digital_surgery.presentation.procedure
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.lazy.LazyColumn
+import androidx.compose.foundation.lazy.items
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Scaffold
+import androidx.compose.material3.SnackbarDuration
 import androidx.compose.material3.SnackbarHost
 import androidx.compose.material3.SnackbarHostState
 import androidx.compose.material3.Text
 import androidx.compose.material3.TopAppBar
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
-import androidx.compose.foundation.lazy.items
-import androidx.compose.material3.SnackbarDuration
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
@@ -21,7 +21,6 @@ import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
 import com.touch_surgery.digital_surgery.R
-import com.touch_surgery.digital_surgery.domain.model.Procedure
 import com.touch_surgery.digital_surgery.presentation.components.ErrorScreen
 import com.touch_surgery.digital_surgery.presentation.components.LoadingScreen
 import com.touch_surgery.digital_surgery.presentation.procedureDetails.ProcedureDetailsBottomSheetScreen
@@ -34,7 +33,7 @@ fun ProceduresScreen(
     viewModel: ProcedureViewModel = koinViewModel(),
 ) {
     val state by viewModel.procedureState.collectAsState()
-    var selectedProcedure by remember { mutableStateOf<Procedure?>(null) }
+    var selectedProcedure by remember { mutableStateOf<String?>(null) }
     val snackBarHostState = remember { SnackbarHostState() }
     val snackBarMessage by viewModel.snackBarMessage.collectAsState()
 
@@ -59,16 +58,16 @@ fun ProceduresScreen(
                                 viewModel.updateFavouriteProcedure(procedure.uuid, newState)
                             },
                             onClick = {
-                                selectedProcedure = procedure
+                                selectedProcedure = procedure.uuid
                             }
                         )
                     }
                 }
             }
 
-            selectedProcedure?.let { procedure ->
+            selectedProcedure?.let { procedureID ->
                 ProcedureDetailsBottomSheetScreen(
-                    procedure = procedure,
+                    procedureId = procedureID,
                     onDismiss = { selectedProcedure = null },
                 )
 

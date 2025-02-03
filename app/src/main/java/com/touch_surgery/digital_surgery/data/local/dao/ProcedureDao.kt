@@ -4,7 +4,6 @@ import androidx.room.Dao
 import androidx.room.Insert
 import androidx.room.OnConflictStrategy.Companion.REPLACE
 import androidx.room.Query
-import androidx.room.Update
 import com.touch_surgery.digital_surgery.data.local.model.ProcedureEntity
 import com.touch_surgery.utils.Const
 import kotlinx.coroutines.flow.Flow

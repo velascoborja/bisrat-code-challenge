@@ -139,6 +139,7 @@ dependencies {
     debugImplementation(libs.androidx.ui.tooling)
     debugImplementation(libs.androidx.ui.test.manifest)
     androidTestImplementation (libs.mockito.kotlin)
+    testImplementation(libs.mockito.kotlin)
     androidTestImplementation(libs.androidx.runner)
 
     androidTestUtil(libs.androidx.orchestrator)

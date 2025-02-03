@@ -1,5 +1,6 @@
 package com.touch_surgery.digital_surgery.domain.repository
 
+import com.touch_surgery.digital_surgery.domain.model.Procedure
 import com.touch_surgery.digital_surgery.domain.model.ProcedureDetail
 import com.touch_surgery.utils.ResultWrapper
 import kotlinx.coroutines.flow.Flow
@@ -7,6 +8,6 @@ import kotlinx.coroutines.flow.Flow
 interface ProcedureDetailRepository {
 
     suspend fun fetchProcedureDetailFromApi(procedureID : String) : ResultWrapper<Any>
-    fun getProcedureDetail(procedureID: String) : Flow<ProcedureDetail?>
-
+    fun getSingleProcedure(procedureID : String) : Flow<Procedure>
+    fun getProcedureWithDetail(procedureID: String): Flow<Pair<Procedure?, ProcedureDetail?>>
 }

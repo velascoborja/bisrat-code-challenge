@@ -53,12 +53,11 @@ import org.koin.androidx.compose.koinViewModel
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun ProcedureDetailsBottomSheetScreen(
-    procedure: Procedure,
+    procedureId: String,
     onDismiss: () -> Unit){
 
-    val viewModel: ProceduresDetailViewModel = koinViewModel(key = procedure.uuid)
+    val viewModel: ProceduresDetailViewModel = koinViewModel(key = procedureId)
     val state by viewModel.procedureDetailState.collectAsState()
-
 
     DisposableEffect(Unit) {
         onDispose {
@@ -66,37 +65,38 @@ fun ProcedureDetailsBottomSheetScreen(
         }
     }
 
-    LaunchedEffect(procedure) {
-        viewModel.loadProcedureDetailFromDB(procedure.uuid)
+    LaunchedEffect(procedureId) {
+        viewModel.getSingleProcedure(procedureId)
+        viewModel.loadProcedureDetailFromDB(procedureId)
     }
 
-        ModalBottomSheet(
-            onDismissRequest = onDismiss,
-            sheetState = rememberModalBottomSheetState(),
-            modifier = Modifier.wrapContentHeight()
-                .heightIn(min = 600.dp)
-        ) {
-            when {
-                state.loading -> LoadingScreen()
-                state.error != null -> ErrorScreen(state.error)
-                state.procedureDetail != null -> {
-                        ProcedureDetailContent(
-                            procedureDetail = state.procedureDetail,
-                            procedure = procedure,
-                            onFavoriteClick = {newState->
-                                viewModel.updateFavouriteProcedure(procedure.uuid,newState)
-                            }
-                        )
-                }
+    ModalBottomSheet(
+        onDismissRequest = onDismiss,
+        sheetState = rememberModalBottomSheetState(),
+        modifier = Modifier.wrapContentHeight()
+            .heightIn(min = 600.dp)
+    ) {
+        when {
+            state.loading -> LoadingScreen()
+            state.error != null -> ErrorScreen(state.error)
+            state.procedureDetail != null -> {
+                ProcedureDetailContent(
+                    procedureDetail = state.procedureDetail,
+                    procedure = state.procedure,
+                    onFavoriteClick = {newState->
+                        viewModel.updateFavouriteProcedure(procedureId,newState)
+                    }
+                )
             }
         }
+    }
 
 }
 
 @Composable
 fun ProcedureDetailContent(
     procedureDetail: ProcedureDetail?,
-    procedure : Procedure,
+    procedure : Procedure?,
     onFavoriteClick: (Boolean) -> Unit,
 ) {
     Card(
@@ -136,11 +136,11 @@ fun ProcedureDetailContent(
                 )
                 Spacer(modifier = Modifier.height(4.dp))
                 Text(
-                    text = "Duration: ${procedure.duration} minutes",
+                    text = "Duration: ${procedure?.duration} minutes",
                     style = MaterialTheme.typography.bodyMedium
                 )
                 Text(
-                    text = "Created on: ${procedure.datePublished?.formatDate()}",
+                    text = "Created on: ${procedure?.datePublished?.formatDate()}",
                     style = MaterialTheme.typography.bodyMedium
                 )
                 Spacer(modifier = Modifier.height(8.dp))
@@ -154,7 +154,7 @@ fun ProcedureDetailContent(
                     Spacer(modifier = Modifier.width(8.dp))
 
                     FavouriteSwitchButton(
-                        isChecked = procedure.isFavourite,
+                        isChecked = procedure?.isFavourite == true,
                         onCheckedChange = onFavoriteClick)
                 }
             }
